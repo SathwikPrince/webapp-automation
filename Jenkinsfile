@@ -7,10 +7,10 @@ pipeline {
                 git branch: 'main', url: 'https://github.com/SathwikPrince/webapp-automation.git'
             }
         }
-        
+
         stage('Install Dependencies') {
             steps {
-                sh 'sudo apt update && sudo apt install -y python3 python3-pip ansible'
+                sh 'apt update && apt install -y python3 python3-pip ansible'
             }
         }
 
@@ -19,14 +19,14 @@ pipeline {
                 sh 'ansible-playbook -i inventory ansible-playbook.yml'
             }
         }
-        
+
         stage('Deploy to EC2') {
             steps {
                 sshagent(['jenkins-ssh-key']) {
                     sh '''
                     ssh -o StrictHostKeyChecking=no ubuntu@44.203.201.75 <<EOF
                     cd /var/www/webapp-automation
-                    sudo systemctl restart webapp
+                    systemctl restart webapp
                     EOF
                     '''
                 }
