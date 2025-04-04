@@ -1,0 +1,26 @@
+---
+- name: Deploy WebApp using Ansible
+  hosts: all
+  become: yes
+
+  tasks:
+    - name: Install Python3 & pip
+      apt:
+        name:
+          - python3
+          - python3-pip
+        state: present
+        update_cache: yes
+
+    - name: Install Flask
+      pip:
+        name: flask
+
+    - name: Copy app files to server
+      copy:
+        src: /var/lib/jenkins/workspace/webapp-automation/
+        dest: /home/ubuntu/webapp/
+        remote_src: no
+
+    - name: Start Flask App
+      shell: nohup python3 /home/ubuntu/webapp/app.py &
