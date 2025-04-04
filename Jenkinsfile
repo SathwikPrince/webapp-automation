@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                git 'https://github.com/SathwikPrince/webapp-automation.git'
+                git branch: 'main', url: 'https://github.com/SathwikPrince/webapp-automation.git'
             }
         }
         
